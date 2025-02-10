@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -7,7 +7,7 @@ from models import User
 from schemas import UserLogin, UserCreate
 from auth import hash_password, verify_password, create_access_token, get_current_user
 
-router = APIRouter(tags=["Users"])
+router = APIRouter(tags=["User "])
 
 
 def get_db():
@@ -20,34 +20,36 @@ def get_db():
 
 @router.on_event("startup")
 async def startup_event():
+
     db = SessionLocal()
-    admin_user = db.query(User).filter(User.is_admin == True).first()
+
+    admin_user = db.query(User).filter(User.username == "admin").first()
     if not admin_user:
         db.add(
             User(
                 username="admin",
                 email="admin@test.com",
+                full_name="System Admin",
+                title="Admin",
                 password=hash_password("123456a@"),
                 is_admin=True,
             )
         )
-        try:
-            db.commit()
-        except IntegrityError:
-            db.rollback()
+        db.commit()
+
     test_user = db.query(User).filter(User.username == "test").first()
     if not test_user:
         db.add(
             User(
                 username="test",
                 email="test@test.com",
+                full_name="Test User",
+                title="Engineer",
                 password=hash_password("123456a@"),
             )
         )
-        try:
-            db.commit()
-        except IntegrityError:
-            db.rollback()
+        db.commit()
+
     db.close()
 
 
@@ -97,7 +99,7 @@ async def login_user(
     )
 
 
-@router.get("/user/details")
+@router.get("/user/profile")
 async def get_user(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user),
@@ -114,6 +116,9 @@ async def get_user(
     db: Session = Depends(get_db),
     current_user: str = Depends(get_current_user),
 ):
+    if not current_user["is_admin"]:
+        return JSONResponse(status_code=403, content={"message": "Forbidden."})
+
     users = db.query(User).all()
 
     return JSONResponse(

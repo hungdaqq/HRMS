@@ -30,3 +30,27 @@ class User(Base):
             "created_at": str(self.created_at),
             "updated_at": str(self.updated_at),
         }
+
+
+class Leave(Base):
+    __tablename__ = "leaves"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    employee_id = Column(UUID(as_uuid=True))
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
+    reason = Column(String)
+    status = Column(String, default="New")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": str(self.id),
+            "employee_id": str(self.employee_id),
+            "start_date": str(self.start_date),
+            "end_date": str(self.end_date),
+            "reason": self.reason,
+            "status": self.status,
+            "created_at": str(self.created_at),
+            "updated_at": str(self.updated_at),
+        }

@@ -14,7 +14,7 @@ def manage_employees():
     if not success:
         st.error("Failed to fetch employees.")
     else:
-        df = pd.DataFrame(employees)
+        df = pd.DataFrame(employees["data"])
         st.write(df)
     # Add Employee
     st.subheader("Add New Employee")

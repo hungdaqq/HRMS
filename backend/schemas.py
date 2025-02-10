@@ -11,3 +11,9 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     username: str
     password: str
+
+
+class CreateLeave(BaseModel):
+    start_date: str
+    end_date: str
+    reason: str
