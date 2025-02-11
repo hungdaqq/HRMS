@@ -1,5 +1,6 @@
 import streamlit as st
 from api.leave import create_leave, get_leave
+import pandas as pd
 
 
 def leave():
@@ -9,12 +10,11 @@ def leave():
     # Apply for Leave
     st.subheader("Apply for Leave")
     with st.form("apply_leave_form"):
-        start_date = st.date_input("Start Date")
-        end_date = st.date_input("End Date")
+        date = st.date_input("Leave date")
         reason = st.text_area("Reason for Leave")
         submit_button = st.form_submit_button("Submit Leave Request")
         if submit_button:
-            success, data = create_leave(start_date, end_date, reason)
+            success, data = create_leave(str(date), reason)
             if success:
                 st.success(data["message"])
                 st.rerun()
@@ -25,9 +25,12 @@ def leave():
     st.subheader("Leave Tracker")
     st.write("All leave request statuses")
     success, leave_requests = get_leave()
-    print(leave_requests)
     if success:
-        st.write(leave_requests["data"])
+        st.dataframe(
+            pd.DataFrame(leave_requests["data"]),
+            use_container_width=True,
+            hide_index=True,
+        )
     else:
         st.error(leave_requests["message"])
 

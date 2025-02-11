@@ -14,6 +14,9 @@ class UserLogin(BaseModel):
 
 
 class CreateLeave(BaseModel):
-    start_date: str
-    end_date: str
+    date: str
     reason: str
+
+
+class UpdateLeave(BaseModel):
+    status: str

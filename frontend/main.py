@@ -29,12 +29,12 @@ def account_information():
     st.subheader("Account Information")
     success, user = get_user_profile()
     if success:
-        st.write("Id:", user["id"])
-        st.write("Username:", user["username"])
-        st.write("Email:", user["email"])
-        st.write("Is Admin:", user["is_admin"])
-        st.write("Created At:", user["created_at"])
-        st.write("Updated At:", user["updated_at"])
+        st.write(f"**Employee ID:** {user['id']}")
+        st.write(f"**Username:** {user['username']}")
+        st.write(f"**Email:** {user['email']}")
+        st.write(f"**Is Admin:** {user['is_admin']}")
+        st.write(f"**Created At:** {user['created_at']}")
+        st.image(user["profile_image"], width=200)
     if st.button("Log out"):
         st.session_state.logged_in = False
         st.rerun()
@@ -48,10 +48,17 @@ manage_employee = st.Page(
     "app/manage_employee.py", title="Employees", icon=":material/people:"
 )
 attendance = st.Page("app/attendance.py", title="Attendance", icon=":material/today:")
-# manage_leave = st.Page(
-#     "app/manage_leave.py", title="Leave", icon=":material/check_in_out:"
-# )
+
 leave = st.Page("app/leave.py", title="Leave", icon=":material/check_in_out:")
+
+manage_leave = st.Page(
+    "app/manage_leave.py", title="Leave", icon=":material/check_in_out:"
+)
+
+manage_approve_leave = st.Page(
+    "app/manage_approve_leave.py", title="Approve Leave", icon=":material/check_in_out:"
+)
+
 manage_salary = st.Page(
     "app/manage_salary.py", title="Salary", icon=":material/attach_money:"
 )
@@ -61,7 +68,8 @@ if st.session_state.logged_in:
         pg = st.navigation(
             {
                 "Account": [account],
-                "Management": [manage_employee],
+                "Employee": [manage_employee],
+                "Leave": [manage_leave, manage_approve_leave],
             }
         )
     else:
