@@ -16,7 +16,7 @@ class User(Base):
     salary = Column(Integer)
     is_admin = Column(Boolean, default=False)
     profile_image = Column(
-        String, default="/home/hungdq30/Dev/Attendance-Management-sys/default.png"
+        String, default="/home/hung/Dev/HRMS/default.png"
     )
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

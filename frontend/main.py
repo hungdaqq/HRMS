@@ -45,14 +45,18 @@ account = st.Page(
     account_information, title="Account Information", icon=":material/article_person:"
 )
 manage_employee = st.Page(
-    "app/manage_employee.py", title="Employees", icon=":material/people:"
+    "app/manage_employee.py", title="Manage Employee", icon=":material/people:"
+)
+
+manage_add_employee = st.Page(
+    "app/manage_add_employee.py", title="Add Employee", icon=":material/person_add:"
 )
 attendance = st.Page("app/attendance.py", title="Attendance", icon=":material/today:")
 
 leave = st.Page("app/leave.py", title="Leave", icon=":material/check_in_out:")
 
 manage_leave = st.Page(
-    "app/manage_leave.py", title="Leave", icon=":material/check_in_out:"
+    "app/manage_leave.py", title="Manage Leave", icon=":material/check_in_out:"
 )
 
 manage_approve_leave = st.Page(
@@ -60,7 +64,7 @@ manage_approve_leave = st.Page(
 )
 
 manage_salary = st.Page(
-    "app/manage_salary.py", title="Salary", icon=":material/attach_money:"
+    "app/manage_salary.py", title="Manage Salary", icon=":material/attach_money:"
 )
 
 if st.session_state.logged_in:
@@ -68,7 +72,7 @@ if st.session_state.logged_in:
         pg = st.navigation(
             {
                 "Account": [account],
-                "Employee": [manage_employee],
+                "Employee": [manage_employee, manage_add_employee],
                 "Leave": [manage_leave, manage_approve_leave],
             }
         )
