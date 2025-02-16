@@ -45,26 +45,28 @@ account = st.Page(
     account_information, title="Account Information", icon=":material/article_person:"
 )
 manage_employee = st.Page(
-    "app/manage_employee.py", title="Manage Employee", icon=":material/people:"
+    "page/manage_employee.py", title="Manage Employee", icon=":material/people:"
 )
 
 manage_add_employee = st.Page(
-    "app/manage_add_employee.py", title="Add Employee", icon=":material/person_add:"
+    "page/manage_add_employee.py", title="Add Employee", icon=":material/person_add:"
 )
-attendance = st.Page("app/attendance.py", title="Attendance", icon=":material/today:")
+attendance = st.Page("page/attendance.py", title="Attendance", icon=":material/today:")
 
-leave = st.Page("app/leave.py", title="Leave", icon=":material/check_in_out:")
+leave = st.Page("page/leave.py", title="Leave", icon=":material/check_in_out:")
 
 manage_leave = st.Page(
-    "app/manage_leave.py", title="Manage Leave", icon=":material/check_in_out:"
+    "page/manage_leave.py", title="Manage Leave", icon=":material/check_in_out:"
 )
 
 manage_approve_leave = st.Page(
-    "app/manage_approve_leave.py", title="Approve Leave", icon=":material/check_in_out:"
+    "page/manage_approve_leave.py",
+    title="Approve Leave",
+    icon=":material/check_in_out:",
 )
 
 manage_salary = st.Page(
-    "app/manage_salary.py", title="Manage Salary", icon=":material/attach_money:"
+    "page/manage_salary.py", title="Manage Salary", icon=":material/attach_money:"
 )
 
 if st.session_state.logged_in:
