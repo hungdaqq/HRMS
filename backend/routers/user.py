@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from database import SessionLocal
 from models import User
-from schemas import UserLogin, UserCreate
+from schemas import UserLogin, UserCreate, UserUpdate
 from auth import hash_password, verify_password, create_access_token, get_current_user
 
 router = APIRouter(tags=["User "])
@@ -64,7 +64,15 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
     # Hash the password and create a new user
     hashed_password = hash_password(user.password)
-    db_user = User(username=user.username, email=user.email, password=hashed_password)
+    db_user = User(
+        username=user.username,
+        email=user.email,
+        password=hashed_password,
+        full_name=user.full_name,
+        title=user.title,
+        salary=user.salary,
+        profile_image=user.profile_image,
+    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -127,4 +135,28 @@ async def get_user(
             "message": "User retrieved successfully.",
             "data": [user.to_dict() for user in users],
         },
+    )
+
+
+@router.put("/user/{user_id}")
+async def update_user(
+    user_id: str,
+    user: UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user),
+):
+    db_user = db.query(User).filter(User.id == user_id).first()
+    if not db_user:
+        return JSONResponse(status_code=404, content={"message": "User not found."})
+
+    for key, value in user.model_dump(exclude_unset=True).items():
+        setattr(db_user, key, value)
+
+    db.commit()
+
+    db.refresh(db_user)
+
+    return JSONResponse(
+        status_code=200,
+        content={"message": "User updated successfully.", "data": db_user.to_dict()},
     )

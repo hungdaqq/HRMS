@@ -44,6 +44,12 @@ signin = st.Page(login_page, title="Log in", icon=":material/login:")
 account = st.Page(
     account_information, title="Account Information", icon=":material/article_person:"
 )
+
+face_recognition = st.Page(
+    "page/face_recognition.py",
+    title="Face Recognition",
+    icon=":material/face_unlock:",
+)
 manage_employee = st.Page(
     "page/manage_employee.py", title="Manage Employee", icon=":material/people:"
 )
@@ -73,6 +79,7 @@ if st.session_state.logged_in:
     if st.session_state.is_admin:
         pg = st.navigation(
             {
+                "Live Feed": [face_recognition],
                 "Account": [account],
                 "Employee": [manage_employee, manage_add_employee],
                 "Leave": [manage_leave, manage_approve_leave],

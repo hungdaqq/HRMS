@@ -6,6 +6,19 @@ class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password: str
+    salary: int
+    title: str
+    full_name: str
+    profile_image: Optional[str] = None
+
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[EmailStr] = None
+    full_name: Optional[str] = None
+    title: Optional[str] = None
+    salary: Optional[str] = None
+    profile_image: Optional[str] = None
 
 
 class UserLogin(BaseModel):
