@@ -7,7 +7,7 @@ from models import User
 from schemas import UserLogin, UserCreate, UserUpdate
 from auth import hash_password, verify_password, create_access_token, get_current_user
 
-router = APIRouter(tags=["User "])
+router = APIRouter(tags=["User"])
 
 
 def get_db():

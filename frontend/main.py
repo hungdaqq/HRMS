@@ -75,6 +75,10 @@ manage_salary = st.Page(
     "page/manage_salary.py", title="Manage Salary", icon=":material/attach_money:"
 )
 
+manage_attendance = st.Page(
+    "page/manage_attendance.py", title="Manage Attendance", icon=":material/today:"
+)
+
 if st.session_state.logged_in:
     if st.session_state.is_admin:
         pg = st.navigation(
@@ -82,6 +86,7 @@ if st.session_state.logged_in:
                 "Live Feed": [face_recognition],
                 "Account": [account],
                 "Employee": [manage_employee, manage_add_employee],
+                "Attendance": [manage_attendance],
                 "Leave": [manage_leave, manage_approve_leave],
             }
         )

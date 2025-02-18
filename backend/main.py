@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import Base, engine, SessionLocal
-from routers import user, leave
+from routers import user, leave, attendance
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -10,7 +10,7 @@ api_prefix = "/api"
 # Include routers
 app.include_router(user.router, prefix=api_prefix)
 app.include_router(leave.router, prefix=api_prefix)
-
+app.include_router(attendance.router, prefix=api_prefix)
 
 if __name__ == "__main__":
     import uvicorn

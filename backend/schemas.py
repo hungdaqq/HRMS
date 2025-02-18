@@ -33,3 +33,9 @@ class CreateLeave(BaseModel):
 
 class UpdateLeave(BaseModel):
     status: str
+
+
+class CreateAttendance(BaseModel):
+    employee: str
+    date: str
+    status: str

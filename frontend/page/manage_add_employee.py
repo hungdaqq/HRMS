@@ -6,13 +6,13 @@ from deepface import DeepFace
 from PIL import Image
 from api.user import register, update_user_image
 
-CSV_FILE = "/home/hungdq30/Dev/HRMS/face_db/face_embeddings.csv"
+CSV_FILE = "/home/hung/Dev/HRMS/face_db/face_embeddings.csv"
 
 
 # Function to extract face embeddings and save to CSV
 def save_embedding(user_id, image):
     try:
-        image_path = f"/home/hungdq30/Dev/HRMS/face_db/images/{user_id}.jpg"
+        image_path = f"/home/hung/Dev/HRMS/face_db/images/{user_id}.jpg"
         image = Image.open(image)
         Image.fromarray(np.array(image)).save(image_path)  # Save image
 
@@ -20,18 +20,20 @@ def save_embedding(user_id, image):
         embedding = DeepFace.represent(img_path=image_path, model_name="Facenet")[0][
             "embedding"
         ]
-
+        columns = ["id"] + [str(i) for i in range(len(embedding))]
         # Save employee info + embedding to CSV
-        df = pd.DataFrame([[user_id] + embedding])
+        df = pd.DataFrame([[user_id] + embedding], columns=columns)
         df.to_csv(
             CSV_FILE,
             mode="a",
             header=not pd.io.common.file_exists(CSV_FILE),
             index=False,
         )
+        print("Embedding saved to CSV.")
         return image_path
 
     except Exception as e:
+        print(e)
         return None
 
 

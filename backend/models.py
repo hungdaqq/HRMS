@@ -16,7 +16,7 @@ class User(Base):
     salary = Column(Integer)
     is_admin = Column(Boolean, default=False)
     profile_image = Column(
-        String, default="/home/hungdq30/Dev/HRMS/face_db/images/default.png"
+        String, default="/home/hung/Dev/HRMS/face_db/images/default.png"
     )
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -52,6 +52,26 @@ class Leave(Base):
             "employee_id": str(self.employee_id),
             "date": str(self.date),
             "reason": self.reason,
+            "status": self.status,
+            "created_at": str(self.created_at),
+            "updated_at": str(self.updated_at),
+        }
+
+
+class Attendance(Base):
+    __tablename__ = "attendances"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    employee = Column(String)
+    date = Column(DateTime)
+    status = Column(String, default="Present")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": str(self.id),
+            "employee_id": str(self.employee_id),
+            "date": str(self.date),
             "status": self.status,
             "created_at": str(self.created_at),
             "updated_at": str(self.updated_at),
