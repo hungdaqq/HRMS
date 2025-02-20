@@ -20,8 +20,8 @@ def attendance_management():
             st.dataframe(
                 df,
                 column_config={
-                    "created_at": st.column_config.DateColumn(
-                        "Created At", format="DD MMM YYYY"
+                    "date": st.column_config.DateColumn(
+                        "Date", format="DD MMM YYYY - hh:mm:ss"
                     ),
                 },
                 use_container_width=True,

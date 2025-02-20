@@ -70,7 +70,7 @@ class Attendance(Base):
     def to_dict(self):
         return {
             "id": str(self.id),
-            "employee_id": str(self.employee_id),
+            "employee": str(self.employee),
             "date": str(self.date),
             "status": self.status,
             "created_at": str(self.created_at),

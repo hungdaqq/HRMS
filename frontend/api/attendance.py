@@ -1,16 +1,17 @@
 import requests
 import streamlit as st
+import datetime
 
 API_BASE_URL = "http://localhost:8000"  # Replace with your actual API base URL
 
 
-def create_attendance(username, date, status):
+def create_attendance(username, status):
     try:
         response = requests.post(
             f"{API_BASE_URL}/api/attendance",
             json={
                 "employee": username,
-                "date": str(date),
+                "date": str(datetime.datetime.now()),
                 "status": status,
             },
             headers={"Authorization": f"Bearer {st.session_state.access_token}"},

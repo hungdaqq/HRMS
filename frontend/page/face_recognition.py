@@ -12,7 +12,7 @@ CSV_FILE = "/home/hung/Dev/HRMS/face_db/face_embeddings.csv"
 
 
 detected_users = set()
-last_reset_date = datetime.date.today()
+last_reset_date = datetime.datetime.now()
 
 
 # Load stored face embeddings from CSV
@@ -52,9 +52,9 @@ def recognize_face(face_img, known_embeddings):
         best_match = None
         best_distance = float("inf")
 
-        for index, row in known_embeddings.iterrows():
+        for _, row in known_embeddings.iterrows():
             username = row.iloc[130]  # First column is name
-            user_id = row.iloc[0]  # Second column is user_id
+            # user_id = row.iloc[0]  # Second column is user_id
             stored_embedding = np.array(row.iloc[1:129].astype(float))
 
             # Compute Euclidean distance
@@ -125,8 +125,8 @@ def face_detection():
                 2,
             )
 
-            # if username != "Unknown":
-            #     send_attendance_request(username)
+            if username != "Unknown" and username != "Error":
+                send_attendance_request(username)
 
         frame_holder.image(frame_rgb, channels="RGB", caption="Webcam Feed")
 
@@ -137,19 +137,21 @@ def face_detection():
 def send_attendance_request(username):
     global detected_users, last_reset_date
 
-    today = datetime.date.today()
-
+    now = datetime.datetime.now()
+    elapsed_time = (now - last_reset_date).total_seconds() / 60
     # Reset tracking only once per day (before checking the username)
-    if today != last_reset_date:
+    # Reset every 15 minutes
+    if elapsed_time >= 15:
         detected_users.clear()
-        last_reset_date = today
+        last_reset_date = now
+        print("Reset detected users after 15 minutes.")
 
     # Check if the user is already marked
     if username not in detected_users:
         print(f"Detected: {username}")
         # print(f"Previously detected users: {detected_users}")
 
-        success, result = create_attendance(username, today, "Present")
+        success, result = create_attendance(username, "Present")
         print(result)
         if success:
             detected_users.add(username)
@@ -157,7 +159,7 @@ def send_attendance_request(username):
         else:
             print(f"Failed to record attendance for {username}")
     else:
-        print(f"{username} is already marked present today.")
+        print(f"{username} is already marked present in this period.")
 
 
 face_detection()

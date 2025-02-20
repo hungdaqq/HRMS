@@ -24,7 +24,7 @@ async def create_attendance(
     current_user=Depends(get_current_user),
 ):
     attendance = Attendance(
-        employee_id=attendance.employee_id,
+        employee=attendance.employee,
         date=attendance.date,
         status=attendance.status,
     )
@@ -48,13 +48,15 @@ async def get_attendance(
 ):
     if current_user["is_admin"]:
         # If the user is an admin, retrieve all attendance
-        query = db.query(Attendance, User).join(User, User.id == Attendance.employee_id)
+        query = db.query(Attendance, User).join(
+            User, User.username == Attendance.employee
+        )
     else:
         # If the user is not an admin, filter by the current user's employee ID
         query = (
             db.query(Attendance, User)
-            .join(User, User.id == Attendance.employee_id)
-            .filter(Attendance.employee_id == current_user["id"])
+            .join(User, User.username == Attendance.username)
+            .filter(User.id == current_user["id"])
         )
 
     attendance = query.all()
@@ -63,6 +65,14 @@ async def get_attendance(
         status_code=200,
         content={
             "message": "Attendance retrieved successfully.",
-            "data": [a.to_dict() for a in attendance],
+            "data": [
+                {
+                    "id": str(a.id),
+                    "employee": a.employee,
+                    "date": str(a.date),
+                    "status": a.status,
+                }
+                for a, u in attendance
+            ],
         },
     )
