@@ -24,7 +24,7 @@ async def create_attendance(
     current_user=Depends(get_current_user),
 ):
     attendance = Attendance(
-        employee=attendance.employee,
+        username=attendance.username,
         date=attendance.date,
         status=attendance.status,
     )
@@ -49,7 +49,7 @@ async def get_attendance(
     if current_user["is_admin"]:
         # If the user is an admin, retrieve all attendance
         query = db.query(Attendance, User).join(
-            User, User.username == Attendance.employee
+            User, User.username == Attendance.username
         )
     else:
         # If the user is not an admin, filter by the current user's employee ID
@@ -68,7 +68,7 @@ async def get_attendance(
             "data": [
                 {
                     "id": str(a.id),
-                    "employee": a.employee,
+                    "username": a.username,
                     "date": str(a.date),
                     "status": a.status,
                 }

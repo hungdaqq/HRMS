@@ -43,7 +43,6 @@ st.title("Manage Employees with Face Detection")
 st.subheader("Add New Employee")
 
 enable = st.checkbox("Enable camera")
-
 picture = st.camera_input("Take a profile picture", disabled=not enable)
 
 

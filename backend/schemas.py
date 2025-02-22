@@ -36,6 +36,6 @@ class UpdateLeave(BaseModel):
 
 
 class CreateAttendance(BaseModel):
-    employee: str
+    username: str
     date: str
     status: str

@@ -71,6 +71,7 @@ async def get_leave(
             {
                 "id": str(leave.id),
                 "employee_id": str(leave.employee_id),
+                "username": user.username,
                 "full_name": user.full_name,
                 "date": str(leave.date),
                 "reason": leave.reason,

@@ -1,19 +1,31 @@
 import streamlit as st
+from api.attendance import get_attendance
+import pandas as pd
 
 
-def attendance_management():
+def attendance():
     st.title("Attendance Management")
     st.write("This page allows you to track attendance.")
+    # Mock data
+    success, result = get_attendance()
+    # Display employees
+    st.subheader("Attendance List")
+    if not success:
+        st.error("Failed to fetch employees.")
+    else:
+        if not result["data"]:
+            st.warning("No attendance records found.")
+        else:
+            df = pd.DataFrame(result["data"]).drop(["id"], axis=1)
+            st.dataframe(
+                df,
+                column_config={
+                    "date": st.column_config.DateColumn(
+                        "Date", format="DD MMM YYYY - hh:mm:ss A"
+                    ),
+                },
+                use_container_width=True,
+            )
 
-    # Manual Entry
-    st.subheader("Manual Attendance")
-    with st.form("manual_attendance_form"):
-        employee_name = st.text_input("Employee Name")
-        date = st.date_input("Date")
-        hours_worked = st.number_input("Hours Worked", min_value=0.0, step=0.5)
-        submit_button = st.form_submit_button("Submit Attendance")
-        if submit_button:
-            st.success(f"Attendance for {employee_name} recorded successfully!")
 
-
-attendance_management()
+attendance()

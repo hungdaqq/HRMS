@@ -11,6 +11,7 @@ if "logged_in" not in st.session_state:
 
 
 def login_page():
+    st.image("./static/hrms.jpg", width=400)
     st.subheader("Login your HRMS account")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
@@ -61,6 +62,8 @@ attendance = st.Page("page/attendance.py", title="Attendance", icon=":material/t
 
 leave = st.Page("page/leave.py", title="Leave", icon=":material/check_in_out:")
 
+salary = st.Page("page/salary.py", title="Salary", icon=":material/attach_money:")
+
 manage_leave = st.Page(
     "page/manage_leave.py", title="Manage Leave", icon=":material/check_in_out:"
 )
@@ -96,7 +99,7 @@ if st.session_state.logged_in:
                 "Account": [account],
                 "Attendance": [attendance],
                 "Leave": [leave],
-                "Salary": [manage_salary],
+                "Salary": [salary],
             }
         )
 else:

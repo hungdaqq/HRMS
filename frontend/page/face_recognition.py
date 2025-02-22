@@ -51,9 +51,8 @@ def recognize_face(face_img, known_embeddings):
 
         best_match = None
         best_distance = float("inf")
-
         for _, row in known_embeddings.iterrows():
-            username = row.iloc[130]  # First column is name
+            username = row.iloc[129]  # First column is name
             # user_id = row.iloc[0]  # Second column is user_id
             stored_embedding = np.array(row.iloc[1:129].astype(float))
 

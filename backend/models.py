@@ -61,7 +61,7 @@ class Leave(Base):
 class Attendance(Base):
     __tablename__ = "attendances"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    employee = Column(String)
+    username = Column(String)
     date = Column(DateTime)
     status = Column(String, default="Present")
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -70,7 +70,7 @@ class Attendance(Base):
     def to_dict(self):
         return {
             "id": str(self.id),
-            "employee": str(self.employee),
+            "employee": str(self.username),
             "date": str(self.date),
             "status": self.status,
             "created_at": str(self.created_at),

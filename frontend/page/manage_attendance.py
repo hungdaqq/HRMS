@@ -21,7 +21,7 @@ def attendance_management():
                 df,
                 column_config={
                     "date": st.column_config.DateColumn(
-                        "Date", format="DD MMM YYYY - hh:mm:ss"
+                        "Date", format="DD MMM YYYY - hh:mm:ss A"
                     ),
                 },
                 use_container_width=True,

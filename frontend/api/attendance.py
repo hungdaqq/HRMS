@@ -10,7 +10,7 @@ def create_attendance(username, status):
         response = requests.post(
             f"{API_BASE_URL}/api/attendance",
             json={
-                "employee": username,
+                "username": username,
                 "date": str(datetime.datetime.now()),
                 "status": status,
             },
